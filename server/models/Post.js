@@ -52,6 +52,10 @@ postSchema.pre('save', async function (next) {
     this.publishedOn = new Date();
   }
 
+  if (this.isModified()) {
+    this.updatedOn = new Date();
+  }
+
   next();
 });
 

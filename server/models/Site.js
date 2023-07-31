@@ -40,7 +40,7 @@ const siteSchema = new Schema({
   url: {
     type: String,
     required: true,
-    validate: [isValidUrl, "Please ener a valid URL"],
+    validate: [isValidUrl, "Please enter a valid URL"],
   },
 });
 
