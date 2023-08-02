@@ -181,8 +181,110 @@ export const UPDATE_POST = gql`
   }
 `;
 
-export const ADD_REACTION = gql``;
+export const ADD_REACTION = gql`
+  mutation addReaction($postId: ID!, $type: String!) {
+    addReaction(postId: $postId, type: $type) {
+      _id
+      title
+      content
+      isPublished
+      createdOn
+      updatedOn
+      publishedOn
+      reactions {
+        reactionId
+        type
+        user {
+          _id
+        }
+        createdOn
+      }
+      comments {
+        commentId
+        commentText
+        user {
+          _id
+        }
+        createdOn
+      }
+      reactionsCount {
+        total
+        up
+        down
+      }
+      commentsCount
+    }
+  }
+`;
 
-export const REMOVE_REACTION = gql``;
+export const REMOVE_REACTION = gql`
+  mutation removeReaction($postId: ID!, $reactionId: ID!) {
+    removeReaction(postId: $postId, reactionId: $reactionId) {
+      _id
+      title
+      content
+      isPublished
+      createdOn
+      updatedOn
+      publishedOn
+      reactions {
+        reactionId
+        type
+        user {
+          _id
+        }
+        createdOn
+      }
+      comments {
+        commentId
+        commentText
+        user {
+          _id
+        }
+        createdOn
+      }
+      reactionsCount {
+        total
+        up
+        down
+      }
+      commentsCount
+    }
+  }
+`;
 
-export const ADD_COMMENT = gql``;
+export const ADD_COMMENT = gql`
+  mutation addComment($postId: ID!, $commentText: String!) {
+    addComment(postId: $postId, commentText: $commentText) {
+      _id
+      title
+      content
+      isPublished
+      createdOn
+      updatedOn
+      publishedOn
+      reactions {
+        reactionId
+        type
+        user {
+          _id
+        }
+        createdOn
+      }
+      comments {
+        commentId
+        commentText
+        user {
+          _id
+        }
+        createdOn
+      }
+      reactionsCount {
+        total
+        up
+        down
+      }
+      commentsCount
+    }
+  }
+`;

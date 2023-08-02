@@ -32,7 +32,7 @@ const postSchema = new Schema(
     },
     updatedOn: {
       type: Date,
-      default: new Date(),
+      // default: new Date(),
       get: formatDateTime,
     },
     publishedOn: {
@@ -68,13 +68,23 @@ postSchema.pre("save", async function (next) {
 });
 
 postSchema.pre("findOneAndUpdate", async function (next) {
-  
+
+  if(this._update['$push'] && this._update['$push'].reactions) {
+    this._update['$push'].reactions.createdOn = new Date();
+    next();
+  }
+
+  if(this._update['$push']&& this._update['$push'].comments) {
+    this._update['$push'].comments.createdOn = new Date();
+    next();
+  }
+
   // Update publishedOn date if isPublished is changed to true
   if (this._update.isPublished) {
     this._update.publishedOn = new Date();
   }
   
-  if (this._update) {
+  if (this._update && !this._update['$push'] && !this._update['$pull']) {
     this._update.updatedOn = new Date();
   }
 
