@@ -36,26 +36,29 @@ const resolvers = {
         id = userId;
       }
 
-      const user = await User.findById(id)
-        .populate("blogs")
-        .sort({ "blogs.createdOn": "desc" });
+      const user = await User.findById(id).populate({
+        path: "blogs",
+        options: { sort: { createdOn: "desc" } },
+      });
 
       return [user.blogs[0]];
     },
     blog: async (parent, { _id }) => {
-      return await Blog.findById(_id)
-        .populate("posts")
-        .sort({ "posts.createdOn": "desc" });
+      return await Blog.findById(_id).populate({
+        path: "posts",
+        options: { sort: { createdOn: "desc" } },
+      });
     },
     posts: async (parent, { blogId }) => {
-      const blog = await Blog.findById(blogId)
-        .populate("posts")
-        .sort({ "posts.createdOn": "desc" });
+      const blog = await Blog.findById(blogId).populate({
+        path: "posts",
+        options: { sort: { createdOn: "desc" } },
+      });
 
       return blog.posts;
     },
     post: async (parent, { _id }) => {
-      return await Post.findById(_id)
+      return await Post.findOne({_id})
         .populate({
           path: "reactions.user",
           model: "user",
@@ -110,7 +113,10 @@ const resolvers = {
     },
     addBlog: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id);
+        const user = await User.findById(context.user._id).populate({
+          path: "blogs",
+          options: { sort: { createdOn: "desc" } },
+        });
 
         if (!user.blogs || user.blogs.length === 0) {
           const blog = await Blog.create(args);
@@ -121,12 +127,13 @@ const resolvers = {
               $push: { blogs: blog },
             },
             { new: true }
-          )
-            .populate("blogs")
-            .sort({ "blogs.createdOn": "desc" });
+          ).populate({
+            path: "blogs",
+            options: { sort: { createdOn: "desc" } },
+          });
         }
 
-        return user.populate("blogs").sort({ "blogs.createdOn": "desc" });
+        return user;
       }
 
       throw new AuthenticationError("You need to be logged in.");
@@ -166,9 +173,10 @@ const resolvers = {
       if (typeof isPublished !== "undefined") {
         updatedPost.isPublished = isPublished;
       }
-      return await Post.findByIdAndUpdate(_id, updatedPost, { new: true }).sort(
-        { "comments.createdOn": "desc" }
-      );
+      return await Post.findByIdAndUpdate(_id, updatedPost, {
+        new: true,
+        sort: { "comments.createdOn": "desc" },
+      });
     },
     addReaction: async (parent, { postId, type }, context) => {
       if (context.user) {
@@ -182,8 +190,8 @@ const resolvers = {
               },
             },
           },
-          { new: true }
-        ).sort({ "comments.createdOn": "desc" });
+          { new: true, sort: { "comments.createdOn": "desc" } }
+        );
       }
 
       throw new AuthenticationError("You need to be logged in.");
@@ -198,8 +206,8 @@ const resolvers = {
             },
           },
         },
-        { new: true }
-      ).sort({ "comments.createdOn": "desc" });
+        { new: true, sort: { "comments.createdOn": "desc" } }
+      );
     },
     addComment: async (parent, { postId, commentText }, context) => {
       if (context.user) {
@@ -213,8 +221,8 @@ const resolvers = {
               },
             },
           },
-          { new: true }
-        ).sort({ "comments.createdOn": "desc" });
+          { new: true, sort: { "comments.createdOn": "desc" } }
+        );
       }
 
       throw new AuthenticationError("You need to be logged in.");
