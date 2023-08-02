@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-
 const { Schema } = mongoose;
+const { formatDateTime } = require("../utils/helpers");
 
 const blogSchema = new Schema(
   {
@@ -9,15 +9,20 @@ const blogSchema = new Schema(
       required: true,
       trim: true,
       minLength: 1,
-      maxLength: 50, // do we want to increase this?
+      maxLength: 50,
+    },
+    image: {
+      type: String,
     },
     createdOn: {
       type: Date,
       default: new Date(),
+      get: formatDateTime,
     },
     updatedOn: {
       type: Date,
       default: new Date(),
+      get: formatDateTime,
     },
     theme: {
       type: String, // this would be converted to string by FE
@@ -33,23 +38,15 @@ const blogSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
 
-blogSchema.virtual('postsCount').get(function() {
-    return this.posts.length;
+blogSchema.virtual("postsCount").get(function () {
+  return this.posts.length;
 });
-
-blogSchema.virtual('blogPath').get(function() {
-    const pathLength = this.title.length < 20 ? this.title.length : 20;
-
-    // I took this code from https://www.geeksforgeeks.org/replace-special-characters-in-a-string-with-underscore-_-in-javascript/
-    const blogPath = this.title.substring(0, pathLength).replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '_');
-
-    return blogPath[pathLength - 1] === '_' ? blogPath[pathLength - 2] : blogPath[pathLength - 1];
-})
 
 const Blog = mongoose.model("blog", blogSchema);
 

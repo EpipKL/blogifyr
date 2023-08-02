@@ -1,12 +1,5 @@
 const { Schema, Types } = require("mongoose");
-
-const isValidUrl = function (url) {
-  // The RegEx below was taken from the Full Stack docs, Week 17 Challenge README
-  let urlRegEx = new RegExp(
-    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
-  );
-  return urlRegEx.test(url);
-};
+const {isValidUrl} = require('../utils/helpers');
 
 const siteNames = {
   TWITTER_X: "twitter",
@@ -40,7 +33,7 @@ const siteSchema = new Schema({
   url: {
     type: String,
     required: true,
-    validate: [isValidUrl, "Please ener a valid URL"],
+    validate: [isValidUrl, "Please enter a valid URL"],
   },
 });
 
