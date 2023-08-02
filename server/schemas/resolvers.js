@@ -58,7 +58,7 @@ const resolvers = {
       return blog.posts;
     },
     post: async (parent, { _id }) => {
-      return await Post.findOne({_id})
+      const post = await Post.findById(_id)
         .populate({
           path: "reactions.user",
           model: "user",
@@ -68,8 +68,13 @@ const resolvers = {
           path: "comments.user",
           model: "user",
           populate: { path: "profile", model: "profile" },
-        })
-        .sort({ "comments.createdOn": "desc" });
+        });
+
+      post.comments.sort(
+        (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
+      );
+
+      return post;
     },
   },
   Mutation: {
@@ -104,7 +109,9 @@ const resolvers = {
     },
     updateProfile: async (parent, args, context) => {
       if (context.user) {
-        await Profile.findByIdAndUpdate(context.user.profile, args);
+        await Profile.findByIdAndUpdate(context.user.profile, args, {
+          runValidators: true,
+        });
 
         return await User.findById(context.user._id).populate("profile");
       }
@@ -180,49 +187,111 @@ const resolvers = {
     },
     addReaction: async (parent, { postId, type }, context) => {
       if (context.user) {
-        return await Post.findByIdAndUpdate(
+        await Post.findByIdAndUpdate(postId, {
+          $pull: {
+            reactions: {
+              user: context.user._id,
+            },
+          },
+        });
+
+        const post = await Post.findByIdAndUpdate(
           postId,
           {
             $push: {
               reactions: {
                 type,
-                username: context.user.username,
+                user: context.user._id,
               },
             },
           },
-          { new: true, sort: { "comments.createdOn": "desc" } }
+          {
+            new: true,
+            runValidators: true,
+          }
+        )
+          .populate({
+            path: "reactions.user",
+            model: "user",
+            populate: { path: "profile", model: "profile" },
+          })
+          .populate({
+            path: "comments.user",
+            model: "user",
+            populate: { path: "profile", model: "profile" },
+          });
+
+        post.comments.sort(
+          (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
         );
+
+        return post;
       }
 
       throw new AuthenticationError("You need to be logged in.");
     },
     removeReaction: async (parent, { postId, reactionId }) => {
-      return await Post.findByIdAndUpdate(
+      const post = await Post.findByIdAndUpdate(
         postId,
         {
           $pull: {
             reactions: {
-              _id: reactionId,
+              reactionId,
             },
           },
         },
-        { new: true, sort: { "comments.createdOn": "desc" } }
+        { new: true }
+      )
+        .populate({
+          path: "reactions.user",
+          model: "user",
+          populate: { path: "profile", model: "profile" },
+        })
+        .populate({
+          path: "comments.user",
+          model: "user",
+          populate: { path: "profile", model: "profile" },
+        });
+
+      post.comments.sort(
+        (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
       );
+
+      return post;
     },
     addComment: async (parent, { postId, commentText }, context) => {
       if (context.user) {
-        return await Post.findByIdAndUpdate(
+        const post = await Post.findByIdAndUpdate(
           postId,
           {
             $push: {
               comments: {
                 commentText,
-                username: context.user.username,
+                user: context.user._id,
               },
             },
           },
-          { new: true, sort: { "comments.createdOn": "desc" } }
+          {
+            new: true,
+            runValidators: true,
+          }
+        )
+          .populate({
+            path: "reactions.user",
+            model: "user",
+            populate: { path: "profile", model: "profile" },
+          })
+          .populate({
+            path: "comments.user",
+            model: "user",
+            populate: { path: "profile", model: "profile" },
+          });
+
+        post.comments.sort(
+          (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
         );
+
+        return post;
       }
 
       throw new AuthenticationError("You need to be logged in.");

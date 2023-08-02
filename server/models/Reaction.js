@@ -33,7 +33,7 @@ const reactionSchema = new Schema(
     },
     createdOn: {
       type: Date,
-      default: new Date(),
+      // default: new Date(),
       get: formatDateTime,
     },
   },
