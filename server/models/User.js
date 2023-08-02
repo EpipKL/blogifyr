@@ -3,14 +3,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
 
-const isValidEmail = function (email) {
-  // The RegEx below was taken from the Full Stack docs, Week 17 Challenge README
-  let emailRegEx = new RegExp(
-    /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-  );
-  return emailRegEx.test(email);
-};
-
 const userSchema = new Schema(
   {
     username: {
@@ -18,12 +10,7 @@ const userSchema = new Schema(
       unique: true,
       required: true,
       trim: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      validate: [isValidEmail, "Please enter a valid email address"],
+      lowercase: true,
     },
     password: {
       type: String,

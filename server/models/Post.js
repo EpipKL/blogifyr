@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const reactionSchema = require("./Reaction");
 const commentSchema = require("./Comment");
+const { formatDateTime } = require("../utils/helpers");
 
 const postSchema = new Schema(
   {
@@ -12,7 +13,7 @@ const postSchema = new Schema(
       required: true,
       trim: true,
       minLength: 1,
-      maxLength: 50, // do we want to increase this?
+      maxLength: 50,
     },
     content: {
       type: String,
@@ -26,28 +27,35 @@ const postSchema = new Schema(
     },
     createdOn: {
       type: Date,
-      default: new Date(),
+      // default: new Date(),
+      get: formatDateTime,
     },
     updatedOn: {
       type: Date,
       default: new Date(),
+      get: formatDateTime,
     },
     publishedOn: {
-        type: Date,
+      type: Date,
+      get: formatDateTime,
     },
     reactions: [reactionSchema],
-    comments: [commentSchema]
+    comments: [commentSchema],
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
 
-postSchema.pre('save', async function (next) {
-    // Update publishedOn date if isPublished is changed to true
+postSchema.pre("save", async function (next) {
+
+  this.createdOn = new Date();
+
+  // Update publishedOn date if isPublished is changed to true
   if (this.isModified("isPublished") && this.isPublished) {
     this.publishedOn = new Date();
   }
@@ -59,18 +67,32 @@ postSchema.pre('save', async function (next) {
   next();
 });
 
-postSchema.virtual('commentsCount').get(function() {
-    return this.comments.length;
+postSchema.pre("findOneAndUpdate", async function (next) {
+  
+  // Update publishedOn date if isPublished is changed to true
+  if (this._update.isPublished) {
+    this._update.publishedOn = new Date();
+  }
+  
+  if (this._update) {
+    this._update.updatedOn = new Date();
+  }
+
+  next();
 });
 
-postSchema.virtual('reactionsCount').get(function() {
-    const reactionsCount = {
-        total: this.reactions.length,
-        up: this.reactions.filter(reaction => reaction.type === 'UP').length,
-        down: this.reactions.filter(reaction => reaction.type === 'DOWN').length,
-    }
+postSchema.virtual("commentsCount").get(function () {
+  return this.comments.length;
+});
 
-    return reactionsCount;
+postSchema.virtual("reactionsCount").get(function () {
+  const reactionsCount = {
+    total: this.reactions.length,
+    up: this.reactions.filter((reaction) => reaction.type === "UP").length,
+    down: this.reactions.filter((reaction) => reaction.type === "DOWN").length,
+  };
+
+  return reactionsCount;
 });
 
 const Post = mongoose.model("post", postSchema);

@@ -4,12 +4,10 @@ const { User, Profile, Blog, Post } = require("../models");
 const users = [
   {
     username: "sergio",
-    email: "sergio@email.com",
     password: "password1234",
   },
   {
     username: "kyle",
-    email: "kyle@email.com",
     password: "password1234",
   },
 ];
@@ -44,51 +42,52 @@ const posts = [
     title: "Intro",
     content: `My name is Sergio, I'm your BE developer.`,
     reactions: [
-        {
-            type: 'UP',
-            username: 'kyle'
-        }
+      {
+        type: "UP",
+        user: "kyle",
+      },
     ],
     comments: [
-        {
-            commentText: 'Awesome!',
-            username: 'kyle'
-        }
-    ]
+      {
+        commentText: "Awesome!",
+        user: "kyle",
+      },
+    ],
   },
   {
     title: "Introduccion",
     content: "Mi nombre es Sergio, soy programador de backend.",
     reactions: [
-        {
-            type: 'UP',
-            username: 'kyle'
-        },
-        {
-            type: 'DOWN',
-            username: 'sergio'
-        }
+      {
+        type: "UP",
+        user: "kyle",
+      },
+      {
+        type: "DOWN",
+        user: "sergio",
+      },
     ],
     comments: [
-        {
-            commentText: 'Bienvenido',
-            username: 'kyle'
-        },
-        {
-            commentText: 'The thumbs down is just a test!',
-            username: 'sergio'
-        }
-    ]
+      {
+        commentText: "Bienvenido",
+        user: "kyle",
+      },
+      {
+        commentText: "The thumbs down is just a test!",
+        user: "sergio",
+      },
+    ],
   },
   {
     title: "Intro",
     content: `My name is Kyle, I'm your FE developer.`,
     reactions: [
-        {
-            type: 'UP',
-            username: 'sergio'
-        }
-    ]
+      {
+        type: "UP",
+        user: "sergio",
+      },
+    ],
+    comments: [],
   },
 ];
 
@@ -100,13 +99,29 @@ db.once("open", async () => {
 
   const sergioProfile = await Profile.create(profiles[0]);
   users[0].profile = sergioProfile._id;
-  users[0].blogs = [];
+  const sergioUser = await User.create(users[0]);
 
   const kyleProfile = await Profile.create({});
   users[1].profile = kyleProfile._id;
-  users[1].blogs = [];
+  const kyleUser = await User.create(users[1]);
 
   for (let i = 0; i < posts.length; i++) {
+    for (let j = 0; j < posts[i].reactions.length; j++) {
+      if (posts[i].reactions[j].user === "sergio") {
+        posts[i].reactions[j].user = sergioUser._id;
+      } else {
+        posts[i].reactions[j].user = kyleUser._id;
+      }
+    }
+
+    for (let j = 0; j < posts[i].comments.length; j++) {
+      if (posts[i].comments[j].user === "sergio") {
+        posts[i].comments[j].user = sergioUser._id;
+      } else {
+        posts[i].comments[j].user = kyleUser._id;
+      }
+    }
+
     const newPost = await Post.create(posts[i]);
     blogs[i].posts = [newPost._id];
   }
@@ -115,14 +130,18 @@ db.once("open", async () => {
     const newBlog = await Blog.create(blogs[i]);
 
     if (i < 2) {
-        users[0].blogs.push(newBlog._id);
-      } else {
-        users[1].blogs.push(newBlog._id);
-      }
-  }
-
-  for (const user of users) {
-    await User.create(user);
+      await User.findByIdAndUpdate(sergioUser._id, {
+        $addToSet: {
+          blogs: newBlog,
+        },
+      });
+    } else {
+      await User.findByIdAndUpdate(kyleUser._id, {
+        $addToSet: {
+          blogs: newBlog,
+        },
+      });
+    }
   }
 
   console.log("Data seeded!");
