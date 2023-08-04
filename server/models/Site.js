@@ -1,5 +1,4 @@
 const { Schema, Types } = require("mongoose");
-const {isValidUrl} = require('../utils/helpers');
 
 const siteNames = {
   TWITTER_X: "twitter",
@@ -18,10 +17,6 @@ const isValidName = function (name) {
 };
 
 const siteSchema = new Schema({
-  siteId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
-  },
   name: {
     type: String,
     required: true,
@@ -32,9 +27,10 @@ const siteSchema = new Schema({
   },
   url: {
     type: String,
-    required: true,
-    validate: [isValidUrl, "Please enter a valid URL"],
   },
+}, {
+  id: false,
+  _id: false
 });
 
 module.exports = siteSchema;

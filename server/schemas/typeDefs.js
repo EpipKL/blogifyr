@@ -22,14 +22,13 @@ const typeDefs = gql`
     }
 
     type Site {
-        siteId: ID
         name: String!
-        url: String!
+        url: String
     }
 
     input SiteInput {
         name: String!
-        url: String!
+        url: String
     }
 
     type Blog {
