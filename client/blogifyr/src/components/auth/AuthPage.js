@@ -6,11 +6,13 @@ import Auth from "../../utils/auth";
 import MainContent from "../dashboard/MainContent";
 
 const AuthPage = () => {
+  const [formToggler, setFormToggler] = useState("login");
+
   if (Auth.loggedIn()) {
-    window.location.assign('/me')
+    window.location.assign("/me");
+    return;
   }
 
-  const [formToggler, setFormToggler] = useState("login");
   return (
     <>
       {formToggler === "login" ? (
