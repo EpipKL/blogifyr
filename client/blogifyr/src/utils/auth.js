@@ -11,7 +11,19 @@ class AuthService {
     }
 
     getToken() {
-        return localStorage.getItem('id_token');
+        const token = localStorage.getItem('id_token');
+
+        try {
+            const {exp} = decode(token);
+
+            if (Date.now() >= exp * 1000) {
+                return '';
+            }
+        } catch (err) {
+            console.error(err);
+            return '';
+        }
+        return token;
     }
 
     login(idToken) {
@@ -21,7 +33,7 @@ class AuthService {
 
     logout() {
         localStorage.removeItem('id_token');
-        window.location.reload();
+        window.location.assign("/");
     }
 }
 

@@ -15,7 +15,6 @@ export const QUERY_ME = gql`
         createdOn
         memberSince
         sites {
-          siteId
           name
           url
         }
@@ -43,7 +42,6 @@ export const QUERY_USER = gql`
         createdOn
         memberSince
         sites {
-          siteId
           name
           url
         }

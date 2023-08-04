@@ -1,16 +1,22 @@
-import React from 'react';
-import 'tailwindcss/tailwind.css';
-import Sidepanel from './Sidepanel';
-import Account from './Account';
-import Blogs from './Blogs';
+import React from "react";
+import "tailwindcss/tailwind.css";
+import Sidepanel from "./Sidepanel";
+import Account from "./Account";
+import Blogs from "./Blogs";
+
+import Auth from "../../utils/auth";
 
 const MainContent = () => {
-    return (
-        <div className="flex">
-            <Sidepanel />
-            <Account />
-        </div>
-    )
-}
+  if (!Auth.loggedIn()) {
+    window.location.assign("/login");
+    return;
+  }
+  return (
+    <div className="flex">
+      <Sidepanel />
+      <Account />
+    </div>
+  );
+};
 
 export default MainContent;

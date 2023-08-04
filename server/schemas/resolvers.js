@@ -108,6 +108,7 @@ const resolvers = {
       return { token, user };
     },
     updateProfile: async (parent, args, context) => {
+      
       if (context.user) {
         await Profile.findByIdAndUpdate(context.user.profile, args, {
           runValidators: true,

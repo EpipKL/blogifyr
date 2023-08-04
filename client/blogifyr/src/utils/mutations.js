@@ -57,7 +57,6 @@ export const UPDATE_PROFILE = gql`
         createdOn
         memberSince
         sites {
-          siteId
           name
           url
         }
