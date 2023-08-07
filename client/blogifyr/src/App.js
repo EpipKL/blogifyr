@@ -12,6 +12,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/landing/LandingPage";
 import AuthPage from "./components/auth/AuthPage";
 import MainContent from "./components/dashboard/MainContent";
+import Profile from "./components/profile/Profile";
+import NotFound from "./components/NotFound";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -36,13 +38,15 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-        <Router>
-            <Routes>
-                <Route path='/' element={<LandingPage />} />
-                <Route path='/login' element={<AuthPage />} />
-                <Route path='/me' element={<MainContent />} />
-            </Routes>
-        </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/me" element={<MainContent />} />
+          <Route path="/:username" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </ApolloProvider>
   );
 };
