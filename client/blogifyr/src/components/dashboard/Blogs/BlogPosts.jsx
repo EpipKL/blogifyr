@@ -42,7 +42,7 @@ const BlogPosts = () => {
                 <p className="text-sm text-gray-500">
                     Last Updated: {new Date(post.updatedOn).toLocaleDateString()}
                 </p>
-                <Link path="/me/blogs/:blogId/posts/:postId">
+                <Link to={`posts/${post._id}`}>
                 <button className="text-sm text-blue-500 hover:underline">
                     Edit
                 </button>

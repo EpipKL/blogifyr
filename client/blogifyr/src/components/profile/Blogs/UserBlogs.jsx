@@ -33,7 +33,7 @@ const UserBlogs = () => {
                   <p className="mt-2">{blog.createdOn}</p>
                   <p className="text-sm text-gray-500">Posts: {blog.postsCount}</p>
                   
-                  <Link to={`${username}/${blog._id}`}>
+                  <Link to={`${blog._id}`}>
                       View Blog
                   </Link>
               </div>

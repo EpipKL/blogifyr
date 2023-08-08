@@ -38,15 +38,15 @@ const Signup = ({ setForm }) => {
   };
 
   return (
-    <div className="bg-white h-screen justify-center items-center flex flex-col">
-      <img src={Logo} className="mb-10" alt="Blogifyr Logo" />
-      <div className="bg-dark m-10 p-24 rounded-xl shadow-2xl">
-        <h1 className="text-white text-4xl mb-5">Sign Up</h1>
+    <div className="bg-white-50 h-screen flex flex-col justify-center items-center ">
+      <img src={Logo} className="mb-8 sm:mb-10 md:mb-12" alt="Blogifyr Logo" />
+      <div className="bg-dark-500 m-6 p-10 sm:p-16 md:p-24 rounded-xl shadow-2xl">
+        <h1 className="text-white-50 text-2xl md:text-4xl mb-4 md:mb-5">Sign Up</h1>
         <form className="" onSubmit={handleFormSubmit}>
           <div className="mb-6">
             <label
               htmlFor="text"
-              className="block mb-2 text-white text-sm font-medium"
+              className="block mb-2 text-white-50 text-sm font-medium"
             >
               Username
             </label>
@@ -63,7 +63,7 @@ const Signup = ({ setForm }) => {
           <div className="mb-6">
             <label
               htmlFor="password"
-              className="block mb-2 text-white text-sm font-medium"
+              className="block mb-2 text-white-50 text-sm font-medium"
             >
               Password
             </label>
@@ -78,13 +78,19 @@ const Signup = ({ setForm }) => {
               onChange={handleChange}
             />
           </div>
+          <button
+            type="submit"
+            className="text-white-50 bg-primary-500 hover:bg-primary-700 rounded-xl w-full py-3 md:py-4 text-lg md:text-xl text-center transition duration-300 mb-2"
+          >
+            Sign Up
+          </button>
           <div className="flex items-start mb-6">
             <div className="flex items-center h-5">
-              <p className="text-white">
+              <p className="text-white-50">
                 Already have an account?{" "}
                 <a
                   href="#"
-                  className="text-accent underline"
+                  className="text-accent-500 hover:underline"
                   onClick={() => setForm("login")}
                 >
                   Log In
@@ -92,12 +98,6 @@ const Signup = ({ setForm }) => {
               </p>
             </div>
           </div>
-          <button
-            type="submit"
-            className="text-white text-xl bg-primary rounded-xl w-full text-center p-5"
-          >
-            Sign Up
-          </button>
         </form>
       </div>
       {error && (
