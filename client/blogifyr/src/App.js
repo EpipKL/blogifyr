@@ -19,6 +19,7 @@ import Blogs from "./components/dashboard/Blogs";
 import CreatePost from "./components/dashboard/Blogs/Posts/CreatePost";
 import CreateBlog from "./components/dashboard/Blogs/CreateBlog";
 import BlogPosts from "./components/dashboard/Blogs/BlogPosts";
+import UserBlogs from "./components/profile/Blogs/UserBlogs";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -51,11 +52,11 @@ const App = () => {
           <Route path="/me/blogs" element={<Blogs />} />
           <Route path="/me/blogs/:blogId" element={<BlogPosts />} />
           <Route path="/me/blogs/:blogId/new_post" element={<CreatePost />} />
+          <Route path="/me/create_blog" element={<CreateBlog />} />
           <Route path="/:username" element={<Profile />} />
           <Route path="/:username/blogs" element={<ProfileBlogs />} />
-          <Route path="/me/create_blog" element={<CreateBlog />} />
-          
-          {/* <Route path="*" element={<NotFound />} /> */}
+          {/* <Route path="/:username/blogs/:blogId" element={< />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </ApolloProvider>

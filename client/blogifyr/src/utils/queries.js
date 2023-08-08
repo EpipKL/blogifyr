@@ -49,7 +49,15 @@ export const QUERY_USER = gql`
       blogsCount
       blogs {
         _id
-        
+        title
+        image
+        createdOn
+        updatedOn
+        theme
+        posts {
+          _id
+        }
+        postsCount
       }
     }
   }

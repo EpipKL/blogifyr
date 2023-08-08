@@ -1,14 +1,16 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { QUERY_ME, QUERY_USER } from "../../../utils/queries"
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { QUERY_BLOGS, QUERY_ME, QUERY_USER } from "../../../utils/queries"
 
 const UserBlogs = () => {
   const { username } = useParams();
+  console.log(username);
 
   const { loading, error, data } = useQuery(QUERY_USER, {
       variables: { username }
   });
+
 
   if (loading) {
       return <div>Loading...</div>;
@@ -19,7 +21,7 @@ const UserBlogs = () => {
   }
 
   const blogs = data.user.blogs;
-
+  console.log(data);
   return (
       <div>
           <h2 className="text-xl font-semibold mb-4">
@@ -30,9 +32,10 @@ const UserBlogs = () => {
                   <h3 className="text-lg font-semibold">{blog.title}</h3>
                   <p className="mt-2">{blog.createdOn}</p>
                   <p className="text-sm text-gray-500">Posts: {blog.postsCount}</p>
-                  <a href={`${username}/blogs/${blog._id}`} className="text-blue-500 hover:underline">
+                  
+                  <Link to={`${username}/${blog._id}`}>
                       View Blog
-                  </a>
+                  </Link>
               </div>
           ))}
       </div>
