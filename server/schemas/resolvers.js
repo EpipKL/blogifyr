@@ -24,7 +24,7 @@ const resolvers = {
     user: async (parent, { username }) => {
       return await User.findOne({ username }).populate("profile");
     },
-    blogs: async (parent, { userId }) => {
+    blogs: async (parent, { userId }, context) => {
       let id;
       if (!userId) {
         if (context.user) {
@@ -41,7 +41,7 @@ const resolvers = {
         options: { sort: { createdOn: "desc" } },
       });
 
-      return [user.blogs[0]];
+      return user.blogs;
     },
     blog: async (parent, { _id }) => {
       return await Blog.findById(_id).populate({
@@ -126,7 +126,7 @@ const resolvers = {
           options: { sort: { createdOn: "desc" } },
         });
 
-        if (!user.blogs || user.blogs.length === 0) {
+        // if (!user.blogs || user.blogs.length === 0) {
           const blog = await Blog.create(args);
 
           return await User.findByIdAndUpdate(
@@ -139,7 +139,7 @@ const resolvers = {
             path: "blogs",
             options: { sort: { createdOn: "desc" } },
           });
-        }
+        // }
 
         return user;
       }

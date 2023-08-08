@@ -82,6 +82,12 @@ export const QUERY_SINGLE_BLOG = gql`
       theme
       posts {
         _id
+        title
+        content
+        isPublished
+        createdOn
+        updatedOn
+        publishedOn
       }
       postsCount
     }

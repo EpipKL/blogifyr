@@ -9,6 +9,8 @@ import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
 
 import Auth from "../../utils/auth";
+import Navbar from "./Navbar";
+import UserProfile from './UserProfile';
 
 const Profile = () => {
   const { username } = useParams();
@@ -16,9 +18,14 @@ const Profile = () => {
 
 
   return (
-    <div className="flex">
-      <Sidepanel username={username}/>
-      <Account username={username}/>
+    <div className="">
+      {/* <Sidepanel username={username}/> */}
+      <Navbar username={username} />
+
+      <div className="">
+      <UserProfile username={username} />
+      </div>
+
     </div>
   );
 };
