@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import 'tailwindcss/tailwind.css'
 import Logo from '../../img/png/logo-no-background.png'
 
@@ -11,16 +12,21 @@ const Navbar = () => {
           <div className="flex flex-wrap items-center justify-between">
                 <img src={Logo} className="max-w-xl" alt="Blogifyr Logo" />
                 <div>
+                    <Link to='/login'>
                 <button className="
                     bg-gray text-dark px-10 py-5 rounded-xl text-xl shadow-lg mx-5
                     ">
                         Log In
                     </button>
+                        </Link>
+                <Link to='/login'>
                 <button className="
                     bg-primary text-white px-10 py-5 rounded-xl text-xl mr-5 shadow-lg
                     ">
+                        
                         Sign Up
                     </button>
+                </Link>
                     </div>
 
           </div>

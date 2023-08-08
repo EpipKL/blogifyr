@@ -3,6 +3,7 @@ import "tailwindcss/tailwind.css";
 
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
+import Spinner from "../shared/Spinner";
 
 import Auth from "../../utils/auth";
 import NotFound from "../NotFound";
@@ -13,7 +14,7 @@ const Account = ({ username }) => {
   });
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   const user = data?.user || null;
