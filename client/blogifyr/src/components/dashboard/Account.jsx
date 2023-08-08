@@ -95,11 +95,13 @@ const Account = () => {
   };
 
   return (
-    <div className="bg-white h-screen w-screen">
-      <div className="flex justify-between items-center">
+    <div className="bg-white-50 min-h-screen w-screen">
+      <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="flex flex-col m-5 items-center">
-          <div className="p-20 rounded-full bg-gray"></div>
-          <button className="bg-gray text-sm text-dark mt-2 p-3 font-bold rounded-full">
+          {/* Image Placeholder */}
+          <div className="p-12 rounded-full bg-gray-500 mb-4 md:mb-0"></div>
+
+          <button className="bg-gray-500 text-sm text-dark-500 mt-2 p-3 font-bold rounded-xl">
             Select Avatar
           </button>
         </div>
@@ -108,7 +110,7 @@ const Account = () => {
           <div>
             <label
               htmlFor="twitter"
-              className="block text-sm font-medium leading-6 text-dark"
+              className="block text-sm font-medium leading-6 text-dark-500"
             >
               <i className="fa-brands fa-twitter"></i> Twitter / X
             </label>
@@ -116,7 +118,7 @@ const Account = () => {
               type="text"
               name="TWITTER_X"
               htmlFor="twitter"
-              className="block w-full border-primary border-solid border-2 rounded-full p-1"
+              className="block w-full border-primary-500 border-2 rounded-xl p-1"
               placeholder="@username"
               value={getSiteValue("TWITTER_X")}
               onChange={handleSitesChange}
@@ -125,7 +127,7 @@ const Account = () => {
           <div>
             <label
               htmlFor="facebook"
-              className="block text-sm font-medium leading-6 text-dark"
+              className="block text-sm font-medium leading-6 text-dark-500"
             >
               <i className="fa-brands fa-facebook"></i> Facebook
             </label>
@@ -133,7 +135,7 @@ const Account = () => {
               type="text"
               name="FACEBOOK"
               htmlFor="facebook"
-              className="block w-full border-primary border-solid border-2 rounded-full p-1"
+              className="block w-full border-primary-500 border-2 rounded-xl p-1"
               placeholder="@username"
               value={getSiteValue("FACEBOOK")}
               onChange={handleSitesChange}
@@ -142,7 +144,7 @@ const Account = () => {
           <div>
             <label
               htmlFor="instagram"
-              className="block text-sm font-medium leading-6 text-dark"
+              className="block text-sm font-medium leading-6 text-dark-500"
             >
               <i className="fa-brands fa-instagram"></i> Instagram
             </label>
@@ -150,14 +152,14 @@ const Account = () => {
               type="text"
               name="INSTAGRAM"
               htmlFor="instagram"
-              className="block w-full border-primary border-solid border-2 rounded-full p-1"
+              className="block w-full border-primary-500 border-2 rounded-xl p-1"
               placeholder="@username"
               value={getSiteValue("INSTAGRAM")}
               onChange={handleSitesChange}
             />
           </div>
           <button
-            className="text-sm text-dark bg-gray p-2 m-1 mt-2 font-bold rounded-full"
+            className="text-sm text-dark-500 bg-gray-500 p-2 mt-2 font-bold rounded-xl"
             onClick={handleSitesSave}
           >
             Save
@@ -165,29 +167,32 @@ const Account = () => {
         </div>
       </div>
 
-      <div className="mt-20 flex flex-col justify-center items-center">
-        <h1 className="text-dark text-4xl font-bold underline">About Me</h1>
-        <div className="container">
+      <div className="mt-12 md:mt-20">
+        <h1 className="text-dark-500 text-2xl md:text-4xl font-bold underline mb-4 text-center">About Me</h1>
+        <div className="container-fluid md:mx-10">
           <textarea
             id="message"
             rows="4"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border-primary border-2 mt-2 "
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border-primary-500 focus:ring-accent-500 focus:border-accent-500 border-2 mt-2"
             placeholder="Write about yourself here..."
             value={formState.aboutMe ? formState.aboutMe : ''}
             onChange={handleAboutMeChange}
           ></textarea>
+          <div className="flex justify-end">
+
+            <button
+              className=" text-white-50 text-md bg-primary-500 py-2 md:py-4 px-3 md:px-6 m-2 font-bold rounded-xl"
+              onClick={handleProfileSave}
+              >
+              Save
+            </button>
         </div>
-        <button
-          className=" text-white text-md bg-primary py-5 px-10 m-2 font-bold rounded-full"
-          onClick={handleProfileSave}
-        >
-          Save
-        </button>
+        </div>
       </div>
 
-      <div className="flex justify-end mr-5 mt-5">
+      <div className="flex flex-col justify-end items-end mt-5 md:mt-10 mr-2 md:mr-5">
         <button
-          className=" text-white text-md bg-dark py-5 px-10 font-bold rounded-full"
+          className=" text-white-50 text-md bg-dark-500 py-2 md:py-5 px-5 md:px-10 font-bold rounded-xl"
           onClick={() => Auth.logout()}
         >
           Log Out
