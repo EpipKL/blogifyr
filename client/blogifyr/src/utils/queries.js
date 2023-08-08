@@ -49,6 +49,7 @@ export const QUERY_USER = gql`
       blogsCount
       blogs {
         _id
+        
       }
     }
   }
