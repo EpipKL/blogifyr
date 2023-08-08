@@ -16,17 +16,17 @@ const Navbar = () => {
                 <button className="
                     bg-gray text-dark px-10 py-5 rounded-xl text-xl shadow-lg mx-5
                     ">
-                        Log In
+                        Log In/Sign Up
                     </button>
                         </Link>
-                <Link to='/login'>
+                {/* <Link to='/signup'>
                 <button className="
                     bg-primary text-white px-10 py-5 rounded-xl text-xl mr-5 shadow-lg
                     ">
                         
                         Sign Up
                     </button>
-                </Link>
+                </Link> */}
                     </div>
 
           </div>

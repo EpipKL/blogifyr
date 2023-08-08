@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import 'tailwindcss/tailwind.css'
 import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import {

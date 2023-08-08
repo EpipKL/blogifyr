@@ -13,7 +13,6 @@ const AuthPage = () => {
     return;
   }
 
-
   return (
     <>
       {formToggler === "login" ? (
