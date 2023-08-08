@@ -1,7 +1,6 @@
 import React from 'react';
 import 'tailwindcss/tailwind.css'
 import UserBlogs from './Blogs/UserBlogs';
-import BlogList from '../dashboard/Blogs/BlogList';
 
 const ProfileBlogs = () => {
     return (
