@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import BlogCard from "./BlogCard";
 import { QUERY_SINGLE_BLOG, QUERY_BLOGS } from "../../../utils/queries";
 
 const BlogList = () => {
@@ -22,22 +23,24 @@ const BlogList = () => {
 
     return (
         <div>
+
+        <h1 className="text-2xl font-semibold mb-4">Blogs</h1>
+
+          <div className="flex justify-between">
+
           {blogs.map((blog) => (
-            <h1>{blog.title}</h1>
+            <BlogCard key={blog._id} blog={blog} />
             
+            ) )}
 
-          ) )}
+          </div>
 
+            <Link to='/me/create_blog'>
+          <button className="m-5 bg-primary text-white px-4 py-2 rounded-md">
+            Create New Blog
+          </button>
+            </Link>
 
-
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {blogs.posts.map((post) => (
-              <div key={post._id} className="bg-white rounded shadow p-4">
-                <h2 className="text-lg font-bold">{blog.title}</h2>
-                <p></p>
-              </div>
-            ))}
-          </div> */}
         </div>
       );
 }
