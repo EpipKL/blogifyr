@@ -89,9 +89,9 @@ const Post = () => {
           onChange={(e) => setFormState({ title: e.target.value })}
           required={true}
         />
-        <label htmlFor="title">Content</label>
+        <label htmlFor="content">Content</label>
         <textarea
-          id="title"
+          id="content"
           value={formState.content}
           onChange={(e) => setFormState({ content: e.target.value })}
           rows="5"
