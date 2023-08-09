@@ -154,19 +154,20 @@ const UserPost = () => {
         <p className="text-xl mt-2">{post.content}</p>
       </div>
 
-      <div>
-        <button onClick={handleReactionUp}>
+      <div className="flex justify-center text-white-50 text-xl">
+        <button className="flex px-3 py-1 mx-2 bg-success-500 rounded-xl items-center" onClick={handleReactionUp}>
           {/* Display a solid thumbs up icon if the logged in user has reacted to this post with a thumbs up */}
-          <i key={iconUpClass}>
+          <i key={iconUpClass} className="m-1">
             <span className={iconUpClass} />
           </i>
+        <p className="font-bold m-1">{post.reactionsCount.up}</p>
         </button>
-        <p>{post.reactionsCount.up}</p>
-        <button onClick={handleReactionDown}>
+        <button className="flex px-3 py-1 mx-2 bg-danger-500 rounded-xl items-center" onClick={handleReactionDown}>
           {/* Display a solid thumbs down icon if the logged in user has reacted to this post with a thumbs down */}
-          <i key={iconDownClass}>
+          <i key={iconDownClass} className="m-1">
             <span className={iconDownClass} />
           </i>
+          <p className="font-bold m-1">{post.reactionsCount.down}</p>
         </button>
 
       </div>
