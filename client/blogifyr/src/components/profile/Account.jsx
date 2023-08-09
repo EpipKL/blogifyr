@@ -14,7 +14,7 @@ const Account = ({ username }) => {
   });
 
   if (loading) {
-    return <Spinner />;
+    return <div>Loading...</div>;
   }
 
   const user = data?.user || null;

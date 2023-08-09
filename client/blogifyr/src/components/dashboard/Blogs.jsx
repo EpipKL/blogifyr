@@ -15,12 +15,7 @@ const Blogs = () => {
 
             <div>
                 <BlogList />
-
-
                 
-                {/* <BlogPosts />
-                <CreateBlog />
-                <CreatePost /> */}
             </div>
         </div>
     )

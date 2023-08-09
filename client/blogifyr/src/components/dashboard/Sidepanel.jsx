@@ -10,22 +10,22 @@ import CreateBlog from "./Blogs/CreateBlog";
 const Sidepanel = () => {
 
     return (
-        <div className="bg-gray text-dark h-screen">
-        <div className="p-5">
+        <div className="bg-gray-500 text-dark-500 h-screen">
+        <div className="p-4 sm:p-5">
           <Link to="/me">
-            <img src={Logo} className="max-w-xs object-contain w-32" alt="Blogifyr Logo" />
+            <img src={Logo} className="max-w-xs object-contain w-32 mb-4" alt="Blogifyr Logo" />
           </Link>
-          <ul className="mt-4">
+          <ul>
             <li className="mb-2">
               <Link to="/me">
-              <a href="#" className="block px-2 py-1 text-primary font-bold text-xl hover:underline">Account</a>
+              <a href="#" className="block px-2 py-1 text-primary-500 font-bold text-lg hover:underline">Account</a>
               </Link>
             </li>
             <li className="mb-2">
                 <Link to={`/me/blogs`}>
-              <a href="#" className="block px-2 py-1 text-primary font-bold text-xl hover:underline">Blogs</a>
+              <a href="#" className="block px-2 py-1 text-primary-500 font-bold text-lg hover:underline">Blogs</a>
                 </Link>
-              <ul className="list-disc list-inside ml-4">
+              <ul className="list-inside ml-4">
                 {/* {blogs.map((blog) => (
                     <li key={blog._id}>
                         <Link to={`/blogs/${blog._id}`}>
@@ -33,11 +33,11 @@ const Sidepanel = () => {
                         </Link>
                     </li>
                 ))} */}
-                <li>
+                {/* <li>
                   <Link to='/me/create_blog'>
-                    <a href="#" className="text-primary font-bold hover:underline">Create Blog</a>
+                    <a href="#" className="text-primary-500 hover:underline">Create Blog</a>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>
