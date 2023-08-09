@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_BLOG } from '../../../utils/mutations';
 import Sidepanel from '../Sidepanel';
+import Spinner from '../../shared/Spinner';
 
 const CreateBlog = () => {
   const [formData, setFormData] = useState({
@@ -53,56 +54,43 @@ const CreateBlog = () => {
   }
 
   return (
-    <div className='flex'>
-      
-      <div>
-        <Sidepanel />
-      </div>
-
-    <div className='bg-white items-center w-screen h-screen container-fluid'>
-      
-
-      <h2 className='text-dark text-2xl text-center font-bold'>Create a New Blog</h2>
-      <div className="container items-center justify-center w-full flex flex-col text-center">
-
-      <form className='' onSubmit={handleSubmit}>
-        <div className='flex justify-between mr-5 items-center w-full'>
-          <label className='text-xl font-bold mr-1' htmlFor="title">Title </label>
+    <div className="flex flex-col md:flex-row">
+      <Sidepanel />
+      <div className="bg-white-50 w-full h-full p-5">
+        <h2 className="text-dark-500 text-2xl text-center font-bold mb-4">
+          Create a New Blog
+        </h2>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <label className="text-xl font-bold" htmlFor="title">
+            Title
+          </label>
           <input
-            className="block w-100 border-primary border-solid border-2 rounded-full mt-2 p-1"
+            className="block w-full border-primary-500 border-2 rounded-xl p-2"
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
             required
-            />
-        </div>
-        <div className='flex justify-between mr-5 items-center w-full'>
-          <label className='text-xl font-bold mr-1' htmlFor="image">Image URL (optional) </label>
+          />
+          <label className="text-xl font-bold" htmlFor="image">
+            Image URL (optional)
+          </label>
           <input
-            className="block w-100 border-primary border-solid border-2 rounded-full mt-2 p-1"
+            className="block w-full border-primary-500 border-2 rounded-xl p-2"
             type="text"
             name="image"
             value={formData.image}
             onChange={handleChange}
-            />
-        </div>
-        <div className='flex justify-between mr-5 items-center w-full'>
-          <label className='text-xl font-bold mr-1' htmlFor="description">Blog Description </label>
-          <textarea
-            className="block w-100 border-primary border-solid border-2 rounded-lg mt-2 p-5"
-            type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            ></textarea>
-        </div>
-        <button
-        className=" text-white text-md bg-primary py-2 px-5 m-2 font-bold rounded-full mx-auto flex justify-between items-center"
-        type="submit">Create Blog</button>
-      </form>
+          />
+          
+          <button
+            className="w-full bg-primary-500 text-white-50 py-2 px-4 rounded-md font-bold"
+            type="submit"
+          >
+            Create Blog
+          </button>
+        </form>
       </div>
-    </div>
     </div>
   );
 };

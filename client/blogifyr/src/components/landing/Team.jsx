@@ -16,10 +16,10 @@ const Team = () => {
               <p className="text-white-50 text-sm md:text-base mb-4">Bio / Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
               <div className="flex justify-center">
                 <a href="#" className="text-accent-500 text-2xl mx-2">
-                    <i class="fa-solid fa-address-card"></i>
+                    <i className="fa-solid fa-address-card"></i>
                 </a>
                 <a href="#" className="text-accent-500 text-2xl mx-2">
-                    <i class="fa-brands fa-github"></i>
+                    <i className="fa-brands fa-github"></i>
                 </a>
               </div>
             </div>
@@ -31,10 +31,10 @@ const Team = () => {
               <p className="text-white-50 text-sm md:text-base mb-4">Bio / Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
               <div className="flex justify-center">
                 <a href="#" className="text-accent-500 text-2xl mx-2">
-                    <i class="fa-solid fa-address-card"></i>
+                    <i className="fa-solid fa-address-card"></i>
                 </a>
                 <a href="#" className="text-accent-500 text-2xl mx-2">
-                    <i class="fa-brands fa-github"></i>
+                    <i className="fa-brands fa-github"></i>
                 </a>
               </div>
             </div>

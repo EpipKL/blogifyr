@@ -33,11 +33,11 @@ const Sidepanel = () => {
                         </Link>
                     </li>
                 ))} */}
-                <li>
+                {/* <li>
                   <Link to='/me/create_blog'>
                     <a href="#" className="text-primary-500 hover:underline">Create Blog</a>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>

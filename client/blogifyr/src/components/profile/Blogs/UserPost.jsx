@@ -6,8 +6,8 @@ import {
   ADD_COMMENT,
   ADD_REACTION,
 } from "../../../utils/mutations";
-import Spinner from "../../shared/Spinner";
 import Auth from "../../../utils/auth";
+import Navbar from "../Navbar";
 // import 'tailwindcss/tailwinds.css'
 
 const UserPost = () => {
@@ -25,7 +25,7 @@ const UserPost = () => {
     useMutation(ADD_REACTION);
 
   if (loading) {
-    return <Spinner />;
+    return <div>Loading...</div>;
   }
 
   const post = data?.post || null;
@@ -106,55 +106,93 @@ const UserPost = () => {
   };
 
   return (
-    <div>
       <div>
-        <h1>{post.title}</h1>
-        <p>{post.content}</p>
+      <Navbar />
+      <div className="m-5">
+
+      <div className="bg-white-50 p-4 rounded-xl shadow-md my-4 text-center">
+        <h1 className="text-4xl font-semibold">{post.title}</h1>
+        <p className="text-xl mt-2">{post.content}</p>
       </div>
-      <div>
-        <button onClick={handleReactionUp}>
-          {/* Display a solid thumbs up icon if the logged in user has reacted to this post with a thumbs up */}
-          <i className={userReaction && userReaction.type === "UP" ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"}></i>
-        </button>
-        <p>{post.reactionsCount.up}</p>
-        <button onClick={handleReactionDown}>
-          {/* Display a solid thumbs down icon if the logged in user has reacted to this post with a thumbs down */}
-          <i className={userReaction && userReaction.type === "DOWN" ? "fa-solid fa-thumbs-down" : "fa-regular fa-thumbs-down"}></i>
-        </button>
-        <p>{post.reactionsCount.down}</p>
+
       </div>
-      <div>
+
+      <div className="flex justify-center mt-4 ">
+
+
+      <div className="mt-4 flex">
+
+
+      <button
+          onClick={handleReactionUp}
+          className={`text-xl mx-2 flex p-2 items-center bg-primary-500 rounded-full ${
+            userReaction && userReaction.type === "UP" ? "text-white-50" : "text-dark-500"
+          }`}
+          >
+          <i
+            className={`fa-solid fa-thumbs-up ${
+              userReaction && userReaction.type === "UP" ? "text-white-50" : "text-dark-500"
+            }`}
+            >
+
+
+            </i>
+        <p className="text-xl ml-1 mr-2">{post.reactionsCount.up}</p>
+        </button>
+
+        <button
+          onClick={handleReactionDown}
+          className={`text-xl mx-2 flex p-2 items-center bg-primary-500 rounded-full ${
+            userReaction && userReaction.type === "DOWN" ? "text-white-50" : "text-dark-500"
+          }`}
+          >
+          <i
+            className={`fa-solid fa-thumbs-down ${
+              userReaction && userReaction.type === "DOWN" ? "text-white-50" : "text-dark-500"
+            }`}
+            ></i>
+        <p className="text-xl ml-2">{post.reactionsCount.down}</p>
+        </button>
+
+      </div>
+
+      </div>
+
+      <div className="text-xl ml-2">
         {Auth.loggedIn() ? (
           <>
-            <h2>Leave a comment:</h2>
+            <h2 className="text-lg font-semibold">Leave a comment:</h2>
             {commentError ? (
-              <h2>
+              <p className="text-danger-500">
                 There's been an error adding your comment. Please try again
-              </h2>
+              </p>
             ) : (
               <></>
             )}
             <form onSubmit={handleCommentSubmit}>
               <textarea
+                className="w-full p-2 border border-primary-500 rounded-xl"
                 rows="5"
                 required={true}
                 onChange={(e) => setCommentText(e.target.value)}
                 value={commentText}
               ></textarea>
-              <button type="submit">Send</button>
+              <button className="text-white-50 bg-primary-500 px-4 py-2 mt-2 rounded-xl" type="submit">Send</button>
             </form>
           </>
         ) : (
-          <h2>
-            Please <a href="/login">log in</a> to leave a comment
-          </h2>
+          <p className="text-lg mt-2">
+            Please <a className="text-primary-500 hover:underline" href="/login">log in</a> to leave a comment
+          </p>
         )}
-        <div>
+        <div className="mt-4">
           {post.comments.map((comment) => (
-            <div key={comment.commentId}>
-              <p>{comment.commentText}</p>
-              <p>
-                Comment Added By {comment.user.username} on {comment.createdOn}
+            <div key={comment.commentId} className="bg-white-50 rounded-xl border-primary-300 border-2 shadow-md mx-5 p-2 mb-4">
+              <p className="text-base">{comment.commentText}</p>
+              <p className="text-dark-500 text-sm mt-1">
+              <span className="text-primary-500">{comment.user.username} </span>
+               on 
+              <span> {comment.createdOn} </span>
               </p>
             </div>
           ))}

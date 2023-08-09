@@ -25,26 +25,26 @@ const UserBlogPosts = () => {
   const posts = data.blog.posts;
 
   return (
-    <div className="">
+    <div className="w-full">
       <Navbar username={username} />
-      <div className="flex">
-        <div>
-          <h1>{data.blog.title}</h1>
+      <div className="px-4 md:px-0">
+        <div className="flex m-5">
+          <h1 className="text-2xl md:text-4xl text-dark-500 font-semibold mb-4">{data.blog.title}</h1>
         </div>
-        <div>
+        <div className="m-5">
           {posts.map((post) => (
             <div
               key={post._id}
-              className="bg-white rounded-md shadow-md p-4 mb-4"
+              className="bg-white-50 rounded-md shadow-md p-4 mb-4"
             >
               <h2 className="text-lg font-semibold">{post.title}</h2>
-              <p className="mt-2">{`${post.content.substring(0, 47)}...`}</p>
+              <p className="mt-2 text-sm">{`${post.content.substring(0, 47)}...`}</p>
               <div className="mt-2 flex justify-between items-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-dark-500">
                   Last Updated: {new Date(post.updatedOn).toLocaleDateString()}
                 </p>
                 <Link to={`posts/${post._id}`}>
-                <button className="text-sm text-blue-500 hover:underline">
+                <button className="text-sm text-primary-500 hover:underline mt-2 inline-block">
                   View Post
                 </button>
               </Link>

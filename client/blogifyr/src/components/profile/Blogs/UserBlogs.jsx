@@ -22,23 +22,26 @@ const UserBlogs = () => {
   const blogs = data.user.blogs;
 
   return (
-    <div className="">
+    <div className="w-full">
       <Navbar username={username} />
+      <div className="container-fluid m-5">
 
-      <div className="flex">
+
+      <div className="px-4 md:px-0">
         <h2 className="text-xl font-semibold mb-4">{`${username}'s Blogs`}</h2>
         {blogs.map((blog) => (
           <div
             key={blog._id}
-            className="bg-white rounded-md shadow-md p-4 mb-4"
+            className="bg-white-50 rounded-md shadow-md p-4 mb-4"
           >
             <h3 className="text-lg font-semibold">{blog.title}</h3>
-            <p className="mt-2">{blog.createdOn}</p>
-            <p className="text-sm text-gray-500">Posts: {blog.postsCount}</p>
+            <p className="mt-2 text-sm text-dark-500">{blog.createdOn}</p>
+            <p className="text-sm text-dark-500">Posts: {blog.postsCount}</p>
 
-            <Link to={`${blog._id}`}>View Blog</Link>
+            <Link to={`${blog._id}`} className="text-primary-500 hover:underline mt-2 inline-block">View Blog</Link>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
