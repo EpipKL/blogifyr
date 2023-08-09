@@ -22,7 +22,8 @@ const UserBlogPosts = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const posts = data.blog.posts;
+  // filtered out unpublished posts - ideally this would be done by the GQL query...
+  const posts = data.blog.posts.filter(post => post.isPublished);
 
   return (
     <div className="w-full">
