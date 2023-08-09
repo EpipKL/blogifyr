@@ -5,6 +5,7 @@ import { QUERY_SINGLE_POST } from "../../../utils/queries";
 import {
   ADD_COMMENT,
   ADD_REACTION,
+  REMOVE_REACTION,
 } from "../../../utils/mutations";
 import Spinner from "../../shared/Spinner";
 import Auth from "../../../utils/auth";
@@ -14,7 +15,11 @@ const UserPost = () => {
   const { blogId, postId } = useParams();
 
   const [commentText, setCommentText] = useState("");
-
+  const [userReaction, setUserReaction] = useState();
+  const [iconUpClass, setIconUpClass] = useState("fa-regular fa-thumbs-up");
+  const [iconDownClass, setIconDownClass] = useState(
+    "fa-regular fa-thumbs-down"
+  );
 
   const { loading, data } = useQuery(QUERY_SINGLE_POST, {
     variables: { id: postId },
@@ -23,6 +28,34 @@ const UserPost = () => {
   const [addComment, { commentError, commentData }] = useMutation(ADD_COMMENT);
   const [addReaction, { addReactionError, addReactionData }] =
     useMutation(ADD_REACTION);
+  const [removeReaction, { removeReactionError, removeReactionData }] =
+    useMutation(REMOVE_REACTION);
+
+  useEffect(() => {
+    if (data && data.post) {
+      const authData = Auth.getProfile();
+
+      setUserReaction({
+        ...data.post.reactions.find(
+          (reaction) => authData && reaction.user._id === authData.data._id
+        ),
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIconUpClass(
+      userReaction && userReaction.type === "UP"
+        ? "fa-solid fa-thumbs-up"
+        : "fa-regular fa-thumbs-up"
+    );
+
+    setIconDownClass(
+      userReaction && userReaction.type === "DOWN"
+        ? "fa-solid fa-thumbs-down"
+        : "fa-regular fa-thumbs-down"
+    );
+  }, [userReaction]);
 
   if (loading) {
     return <Spinner />;
@@ -34,24 +67,24 @@ const UserPost = () => {
     return document.location.assign("/error/not-found");
   }
 
-  // get the decoded token data
-  const authData = Auth.getProfile();
-
-  // get the user reaction for the logged in user if the user is logged in and a reaction exists
-  const userReaction = post.reactions.find(
-    (reaction) => authData && reaction.user._id === authData.data._id
-  );
-
   const handleReactionUp = async (e) => {
     if (!Auth.loggedIn()) {
       return;
     }
 
-    // stop code execution if the logged in user has previously reacted to post with a thumbs up to prevent from overloading the database
     if (userReaction && userReaction.type === "UP") {
-        return;
+      try {
+        const { data } = await removeReaction({
+          variables: { postId: post._id, reactionId: userReaction.reactionId },
+        });
+
+        console.log("Removed reaction successfully", data);
+      } catch (err) {
+        console.log(`Error on remove reaction up: `, err);
+      }
+      return;
     }
-    
+
     e.preventDefault();
 
     try {
@@ -59,11 +92,10 @@ const UserPost = () => {
         variables: { postId: post._id, type: "UP" },
       });
 
-      console.log('Added reaction successfully', data);
+      console.log("Added reaction successfully", data);
     } catch (err) {
-      console.log(`Error on reaction up: `, err);
+      console.log(`Error on add reaction up: `, err);
     }
-
   };
 
   const handleReactionDown = async (e) => {
@@ -71,11 +103,19 @@ const UserPost = () => {
       return;
     }
 
-    // stop code execution if the logged in user has previously reacted to post with a thumbs down to prevent from overloading the database
     if (userReaction && userReaction.type === "DOWN") {
-        return;
+      try {
+        const { data } = await removeReaction({
+          variables: { postId: post._id, reactionId: userReaction.reactionId },
+        });
+
+        console.log("Removed reaction successfully", data);
+      } catch (err) {
+        console.log(`Error on remove reaction down: `, err);
+      }
+      return;
     }
-    
+
     e.preventDefault();
 
     try {
@@ -83,11 +123,10 @@ const UserPost = () => {
         variables: { postId: post._id, type: "DOWN" },
       });
 
-      console.log('Added reaction successfully', data);
+      console.log("Added reaction successfully", data);
     } catch (err) {
-      console.log(`Error on reaction down: `, err);
+      console.log(`Error on add reaction down: `, err);
     }
- 
   };
 
   const handleCommentSubmit = async (e) => {
@@ -114,12 +153,16 @@ const UserPost = () => {
       <div>
         <button onClick={handleReactionUp}>
           {/* Display a solid thumbs up icon if the logged in user has reacted to this post with a thumbs up */}
-          <i className={userReaction && userReaction.type === "UP" ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"}></i>
+          <i key={iconUpClass}>
+            <span className={iconUpClass} />
+          </i>
         </button>
         <p>{post.reactionsCount.up}</p>
         <button onClick={handleReactionDown}>
           {/* Display a solid thumbs down icon if the logged in user has reacted to this post with a thumbs down */}
-          <i className={userReaction && userReaction.type === "DOWN" ? "fa-solid fa-thumbs-down" : "fa-regular fa-thumbs-down"}></i>
+          <i key={iconDownClass}>
+            <span className={iconDownClass} />
+          </i>
         </button>
         <p>{post.reactionsCount.down}</p>
       </div>
